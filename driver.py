@@ -19,19 +19,26 @@ for fname in files:
 	f = open(fname,"r")
 	instructions =  f.read().strip()
 	out_fname = "outputs/" + team_name + ".out"
-	call = instructions + " > " + out_fname
+	call = "timeout 140 bash -c '"+instructions + " &> " + out_fname + "'"
+	print(call)
+	print(team_name)
+	print("\tstarting at: ", end="")
+	sys.stdout.flush()
+	os.system("date")
+	sys.stdout.flush()
 	f.close()
 	start = datetime.datetime.now()
 	os.system(call)
 	end = datetime.datetime.now()
 	t = end - start
-	print(team_name)
+	
 	if t.seconds >= 120:
 		print("\n\tcode took too long to run. No points awarded.")
 	if verbose:
-		os.system("python OTManager.py given_info.txt " + out_fname + " -v")
+		os.system("python3 OTManager.py given_info.txt " + out_fname + " -v")
 	else:
-		os.system("python OTManager.py given_info.txt " + out_fname)
+		os.system("python3 OTManager.py given_info.txt " + out_fname)
+	print("\tTime taken:",t,"\n")
 	
 
 
